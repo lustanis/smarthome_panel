@@ -1,0 +1,21 @@
+instalation mongodb:
+1. edit php.ini 
+extension=php_mongodb.dll
+2. put php_mongodb.dll (version 1.2.0) to php/ext
+3. use composer (from php project root directory):
+composer require mongodb/mongodb
+4. put php_mongodb.dll (version newest) to php/ext
+
+
+# php location: /usr/local/bin/php7-cli
+#/usr/local/bin/php7-cli -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+#/usr/local/bin/php7-cli composer-setup.php
+#/usr/local/bin/php7-cli composer.phar uninstall  catfan/Medoo
+#/usr/local/bin/php7-cli composer.phar require  catfan/Medoo
+#/usr/local/bin/php7-cli composer.phar update
+
+
+#to add new required lib in composer
+1. add package to composer.json
+2. cd public_html/cesspool/
+3. /usr/local/bin/php7-cli composer.phar update

@@ -1,0 +1,7 @@
+{
+  "gcm_sender_id": "506715187036",
+  "name": "Cesspool",
+  "version": "1.1",
+  "description": "",
+  "permissions": ["notifications", "storage", "alarms"]
+}
