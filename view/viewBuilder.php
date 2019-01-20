@@ -41,6 +41,8 @@
         <div data-role="panel" id="menupanel" data-display="overlay">
             <ul data-role="listview">
                 <?php if ($user->isLogged()) { ?>
+                    <li><a href='home.php' data-ajax='false'>Devices</a></li>
+                    <li><a href='cesspool.php' data-ajax='false'>Cesspool</a></li>
                     <li><a href='action/logout.php' data-ajax='false'>Wyloguj</a></li>
                 <?php } else { ?>
                     <li><a href="login.php" data-ajax="false">Login</a></li>
