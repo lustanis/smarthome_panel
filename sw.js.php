@@ -23,7 +23,7 @@ self.addEventListener('push', function (event) {
                     if (data_json.space_amount < 1.0) {
                         var title = 'Szambo zapełnia się';
                         var body = 'Free space: ' + data_json.space_amount;
-                        var icon = 'https://serwer1868388.home.pl/cesspool/resources/flood.512.png';
+                        var icon = 'https://serwer1868388.home.pl/smarthome/resources/flood.512.png';
                         // var tag = 'cesspool-tag';
 
                         event.waitUntil(

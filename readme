@@ -17,5 +17,5 @@ composer require mongodb/mongodb
 
 #to add new required lib in composer
 1. add package to composer.json
-2. cd public_html/cesspool/
+2. cd public_html/smarthome/
 3. /usr/local/bin/php7-cli composer.phar update
