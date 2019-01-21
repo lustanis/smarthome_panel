@@ -10,10 +10,13 @@ class User  {
     public function login($login, $passwordMd5) {
         $user = $this->db->select(User::$tableName, "*", ["AND"=>["login"=>$login, "password"=>$passwordMd5]]);
         if ($user != NULL && count($user) === 1) {
-            $_SESSION["User_user"] = serialize($user[0]);
+            if(session_status() != PHP_SESSION_DISABLED) {
+                $_SESSION["User_user"] = serialize($user[0]);
+            }
+            return $user[0];
         }
         else{
-            throw new Exception ("user does not exists");
+            throw new RuntimeException ("user does not exists");
         }
     }
 
