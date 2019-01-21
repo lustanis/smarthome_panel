@@ -15,7 +15,7 @@ $devices = new Devices($db);
             <td><?php echo $registeredDevice["custom_device_name"] ?></td>
             <td><?php foreach ($registeredDevice["functions"] as $function) { ?>
                     <button data-inline="true" data-role="button"
-                            onclick="saveAction(this, <?php echo $registeredDevice['device_id'] ?>, '<?php echo $function ?>')">
+                            onclick="saveAction(<?php echo $registeredDevice['device_id'] ?>, '<?php echo $function ?>')">
                         <?php echo $function ?>
                     </button> <?php
                 } ?>
@@ -27,7 +27,7 @@ $devices = new Devices($db);
 <script type="text/javascript">
 
 
-    function saveAction(selector, deviceId, functionName) {
+    function saveAction(deviceId, functionName) {
         $.mobile.loading("show");
         $.post("action/saveNewRequest.php", {deviceId: deviceId, functionName: functionName})
         .always(ignored=>{$.mobile.loading("hide");;});
