@@ -1,8 +1,8 @@
 <?php
 require_once 'domain/User.php';
 global $db;
-if (isset($_POST['velocity'])) {
-    $user = new User($db);
 
-    $user->changeVelocity($_POST['velocity']);
-}
+require_once "interface/details/requiredParametersUtils.php";
+list($velocity) = assertAndObtainRequiredParameters($_POST, "velocity");
+
+$user->changeVelocity($velocity);
