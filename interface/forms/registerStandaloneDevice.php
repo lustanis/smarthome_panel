@@ -12,4 +12,4 @@ require_once 'domain/Devices.php';
 $devices = new Devices($db);
 
 $newDeviceName = $devices->registerStandaloneDevice($userData["id"], $type, $functions);
-echo "name=$newDeviceName&id=".$userData["id"];
+echo "name=$newDeviceName";
