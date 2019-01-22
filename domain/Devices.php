@@ -3,7 +3,6 @@
 class Devices
 {
     public static $tableName = "devices";
-    public static $tableName_requests = "device_requests";
 
     private $db;
 
@@ -89,17 +88,4 @@ class Devices
             yield $row;
         }
     }
-
-    public function addNewFunctionRequest(int $userId, int $deviceId, string $functionName)
-    {
-        $newDeviceRequest = [
-            "user_id" => $userId,
-            "device_id" => $deviceId,
-            "function" => $functionName];
-        $result = $this->db->insert(Devices::$tableName_requests, $newDeviceRequest);
-        if (!$result || $result->rowCount() != 1) {
-            throw new RuntimeException("can not insert new device request");
-        }
-    }
-
 }

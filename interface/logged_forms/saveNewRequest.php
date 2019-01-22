@@ -5,8 +5,8 @@ require_once "interface/details/requiredParametersUtils.php";
 list($deviceId, $functionName) = assertAndObtainRequiredParameters($_POST, "deviceId", "functionName");
 
 require_once 'domain/User.php';
-require_once 'domain/Devices.php';
+require_once 'domain/DeviceRequests.php';
 $user = new User($db);
-$devices = new Devices($db);
+$request = new DeviceRequests($db);
 
-$devices->addNewFunctionRequest($user->getId(), $deviceId, $functionName);
+$request->addNewFunctionRequest($user->getId(), $deviceId, $functionName);

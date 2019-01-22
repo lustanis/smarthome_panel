@@ -1,6 +1,6 @@
 <?php
 $formsWithoutRedirection = ["waterCounting.php", "getFreeSpace.php", "registerIp.php", "registerDevice.php",
-    "dailyCron_checkEmptySpace.php", "registerStandaloneDevice.php", "saveNewRequest.php"];
+    "dailyCron_checkEmptySpace.php", "registerStandaloneDevice.php", "getOnlyLastDeviceRequest.php"];
 $doesNotRequireRedirection = in_array($_GET["form_name"], $formsWithoutRedirection);
 if (!$doesNotRequireRedirection) {
     session_start();
