@@ -10,7 +10,7 @@ $devices = new Devices($db);
         <td>Device name</td>
         <td style="min-width: 200px">Functions</td>
     </tr> <?php
-    foreach ($devices->getAllDevices() as $registeredDevice) { ?>
+    foreach ($devices->getAllDevices($user->getId()) as $registeredDevice) { ?>
         <tr>
             <td><?php echo $registeredDevice["custom_device_name"] ?></td>
             <td><?php foreach ($registeredDevice["functions"] as $function) { ?>
@@ -25,12 +25,12 @@ $devices = new Devices($db);
 </table>
 
 <script type="text/javascript">
-
-
     function saveAction(deviceId, functionName) {
         $.mobile.loading("show");
-        $.post("action/saveNewRequest.php", {deviceId: deviceId, functionName: functionName})
-        .always(ignored=>{$.mobile.loading("hide");;});
+        $.post("laction/saveNewRequest.php", {deviceId: deviceId, functionName: functionName})
+            .fail(message=>{alert(message);})
+            .done(data=>{if(data.trim().length > 0) alert(data);})
+            .always(ignored=>{$.mobile.loading("hide");});
 
     }
 </script>
