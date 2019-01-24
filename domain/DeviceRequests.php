@@ -26,21 +26,21 @@ class DeviceRequests
     public function getLastOneAndRemoveAll(int $userId, string $deviceName)
     {
         $deviceId = $this->extractDeviceIdFromDeviceName($deviceName);
-        $result = $this->db->get(
+        $result = $this->db->select(
             DeviceRequests::$tableName,
             ["id", "function"],
-            ["user_id" => $userId, "device_id" => $deviceId],
-            ["ORDER" => ["id" => "ASC"]]);
-        if (!$result) {
+            ["user_id" => $userId, "device_id" => $deviceId,
+                "ORDER" => ["id" => "DESC"]]);
+        if ($result === null) {
             throw new RuntimeException("can not obtain device requests");
         }
-        if($result->rowCount() > 0){
-            $row = $result->fetch();
+        if(count($result) > 0){
+            $row = $result[0];
             $functionToDo = $row["function"];
 
             $idsToRemove = [$row["id"]];
-            while($row = $result->fetch()){
-                $idsToRemove[] = $row["id"];
+            for($i =1; $i < count($result); $i++){
+                $idsToRemove[] = $result[$i]["id"];
             }
 
             $this->removeFunctions($idsToRemove);
@@ -51,7 +51,7 @@ class DeviceRequests
 
     private function extractDeviceIdFromDeviceName(string $deviceName)
     {
-        return substr($deviceName, strrpos($deviceName, "_"));
+        return intval(substr($deviceName, strrpos($deviceName, "_") +1));
     }
 
     private function removeFunctions(array $idsToRemove)

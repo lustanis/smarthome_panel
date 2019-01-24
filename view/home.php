@@ -21,7 +21,7 @@ $devices = new Devices($db);
                 } ?>
             </td>
         </tr> <?php
-    } ?>
+} ?>
 </table>
 
 <script type="text/javascript">
@@ -31,6 +31,5 @@ $devices = new Devices($db);
             .fail(message=>{alert(message);})
             .done(data=>{if(data.trim().length > 0) alert(data);})
             .always(ignored=>{$.mobile.loading("hide");});
-
     }
 </script>
