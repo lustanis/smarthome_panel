@@ -25,11 +25,38 @@ $devices = new Devices($db);
 </table>
 
 <script type="text/javascript">
+    var numberOfAttemptToGetResponses = 0;
+    function getResponseFromDevice(deviceId){
+        $.post("laction/getDeviceResponses.php", {deviceId: deviceId})
+            .always(responses=>{
+                const jsonAnswer = JSON.parse(responses);
+                if(jsonAnswer.length == 0){
+                    if(numberOfAttemptToGetResponses++ < 66){
+                        setTimeout(function(){ getResponseFromDevice(deviceId);}, 3000);
+                    }
+                    else{
+                        numberOfAttemptToGetResponses = 0;
+                        $.mobile.loading("hide");
+                    }
+                    return;
+                }
+                $.mobile.loading("hide");
+                alert(jsonAnswer);
+            })
+    }
+
     function saveAction(deviceId, functionName) {
         $.mobile.loading("show");
         $.post("laction/saveNewRequest.php", {deviceId: deviceId, functionName: functionName})
             .fail(message=>{alert(message);})
             .done(data=>{if(data.trim().length > 0) alert(data);})
-            .always(ignored=>{$.mobile.loading("hide");});
+            .always(ignored=>{
+                if(functionName == "check"){
+                    getResponseFromDevice(deviceId);
+                }
+                else{
+                    $.mobile.loading("hide");
+                }
+            });
     }
 </script>
