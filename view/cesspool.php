@@ -55,27 +55,36 @@ $isFull = ($user->getVelocity() - $currentState) < 0.5;
 </form>
 
 <?php
-$waterConsumptionEntries = $waterCounter->getConsumptionEntries();
+$month = isset($_GET["monthly_consumption"]) ? $_GET["monthly_consumption"] : date("Y-m");
+$waterConsumptionEntries = $waterCounter->getConsumptionEntries($month);
 ?>
 <hr>
 <h3>Wykres</h3>
+<form id="calendar_consumption_form" data-ajax="false">
+<label> chagne month
+<input type="text" id="monthly_consumption_id" name="monthly_consumption"  value="<?php echo $month?>" >
+</label>
+</form>
 <div id="waterConsumptionChart"></div>
 <script>
+    $.datepicker.setDefaults({
+        dateFormat: "yy-mm"
+    });
+
+    $( "#monthly_consumption_id" ).datepicker(  );
+    $( "#monthly_consumption_id" ).change(function(){$("#calendar_consumption_form").trigger("submit");});
+
     $(document).ready(function () {
         var chart = c3.generate({
             bindto: "#waterConsumptionChart",
             data: {
                 x: "x",
-                xFormat: '%Y-%m-%d %H',
+                xFormat: '%Y-%m-%d',
                 columns: [
                     ["x", <?php echo implode(",", array_map(function ($entry) {
                         return "'" . $entry . "'";
                     }, array_keys($waterConsumptionEntries))); ?>],
-                    ['consumption[L]', <?php echo implode(",", array_values($waterConsumptionEntries)) ?>],
-                    //['consumption', <?php $current_value_consumer = 0;  echo implode(",", array_map(function ($e) use (&$current_value_consumer) {
-                    return $current_value_consumer += $e;
-                }, array_values($waterConsumptionEntries)))   ?>],
-
+                    ['consumption[L]', <?php echo implode(",", array_values($waterConsumptionEntries)) ?>]
                 ]
             },
             axis: {
@@ -83,7 +92,7 @@ $waterConsumptionEntries = $waterCounter->getConsumptionEntries();
                     label: 'Date',
                     type: 'timeseries',
                     tick: {
-                        format: '%Y-%m-%d %H'
+                        format: '%Y-%m-%d'
                     }
                 },
                 y: {

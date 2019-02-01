@@ -27,15 +27,18 @@ class WaterCounter
         return $result / 1000;
     }
 
-    public function getConsumptionEntries()
+    public function getConsumptionEntries($month)
     {
-        $res = $this->db->select(WaterCounter::$dbName, ["value", "timestamp"], ["user" => $this->userId]);
+        $res = $this->db->select(WaterCounter::$dbName, ["value", "timestamp"],
+            ["user" => $this->userId,
+                "timestamp[>=]" => $month,
+                "timestamp[<]" => date("Y-m-d", strtotime('+1 month', strtotime($month."-01")))]);
         if ($res === NULL) {
             throw new Exception("can not get entries");
         }
         $accumulatedResult = array();
         foreach ($res as $entry) {
-            $date = substr($entry["timestamp"], 0, 13);
+            $date = substr($entry["timestamp"], 0, 10);
             if (isset($accumulatedResult[$date])) {
                 $accumulatedResult[$date] += $entry['value'];
             } else {
