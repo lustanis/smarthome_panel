@@ -9,6 +9,6 @@ require_once "domain/WaterCounter.php";
 require_once "domain/Devices.php";
 
 $devices = new Devices($db);
-$counter = new WaterCounter($db, $devices->getUserIdByMainServerId($mainServerId));
+$counter = new WaterCounter($db, $devices->getUserIdByMainServerId($mainServerId, $devicesId));
 $counter->addCounting($devicesId, $value, date("y-m-d") . "_" . $reportId);
 echo "OK";

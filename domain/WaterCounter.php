@@ -24,6 +24,9 @@ class WaterCounter
     {
         $lastCleaningTimestamp = $this->getLastCleaningTimestamp($userId);
         $result = (string)$this->db->sum(WaterCounter::$dbName, "value", ["AND" => ["user" => $userId, "timestamp[>=]" => $lastCleaningTimestamp]]);
+        if($result == false){
+            return 0;
+        }
         return $result / 1000;
     }
 

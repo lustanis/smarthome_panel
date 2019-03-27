@@ -13,11 +13,11 @@ class Devices
 
     public function registerDevice(string $mainServerId, string $deviceId, int ...$services)
     {
-        $userId = $this->getUserIdByMainServerId($mainServerId);
-        $servicesName = array_map(function ($e) {
-            return $this->replaceEnumWithName($e);
-        }, $services);
-        $this->db->insert(Devices::$tableName, ["user_id" => $userId, "device_id" => $deviceId, "services" => json_encode($servicesName)]);
+//        $userId = $this->getUserIdByMainServerId($mainServerId, $deviceId);
+//        $servicesName = array_map(function ($e) {
+//            return $this->replaceEnumWithName($e);
+//        }, $services);
+//        $this->db->insert(Devices::$tableName, ["user_id" => $userId, "device_id" => $deviceId, "services" => json_encode($servicesName)]);
     }
 
     private function replaceEnumWithName($intValue)
@@ -49,9 +49,12 @@ class Devices
 
     }
 
-    public function getUserIdByMainServerId(string $mainServerId)
+    public function getUserIdByMainServerId(string $mainServerId, $deviceId)
     {
-        return $this->db->get(User::$tableName, ["id"], ["main_device_id" => $mainServerId])["id"];
+        $users = array_map(
+            function($e){ return $e["user_id"];},
+            $this->db->select(Devices::$tableName, ["user_id"], ["device_id"=>$deviceId]));
+        return $this->db->get(User::$tableName, ["id"], ["main_device_id" => $mainServerId, "id"=>$users])["id"];
     }
 
     private function generateDeviceId(int $userId)
